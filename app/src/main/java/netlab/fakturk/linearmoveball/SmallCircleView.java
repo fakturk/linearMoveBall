@@ -45,8 +45,9 @@ public class SmallCircleView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-//        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.RED);
+        paint.setStrokeWidth(10);
         paintText.setTextSize(40);
 
         int bigCircleRadius=0;
@@ -59,14 +60,15 @@ public class SmallCircleView extends View {
             bigCircleRadius = this.getHeight()/2-50;
         }
         int x = (int) this.getWidth()/2 ;
-        int y = (int) this.y;
+        int y = (int) this.getHeight()/2;
         canvas.drawCircle(x,y,50,paint);
-        canvas.drawLine(x-10,y,x+10,y,paintText);
+        canvas.drawLine(x-50,y,x+50,y,paint);
+        canvas.drawLine(x,y-50,x,y+50,paint);
 
         float xdpi = getResources().getDisplayMetrics().xdpi;
         float ydpi = getResources().getDisplayMetrics().ydpi; //1 inch
         float yCm = ydpi/2.54f;
-        canvas.drawLine(x, 100,x,yCm*5+100,paintText);
+//        canvas.drawLine(x, 100,x,yCm*5+100,paintText);
 
 //        canvas.drawLine(x-10,100,x+10,100,paintText);
 //        canvas.drawText("0",x+20,100,paintText);
