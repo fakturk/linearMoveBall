@@ -14,7 +14,8 @@ import android.view.View;
  */
 
 public class SmallCircleView extends View {
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    Paint paint = new Paint();
+    Paint paintText = new Paint(Paint.ANTI_ALIAS_FLAG);
 
 
 
@@ -46,6 +47,8 @@ public class SmallCircleView extends View {
         super.onDraw(canvas);
 //        paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.RED);
+        paintText.setTextSize(40);
+
         int bigCircleRadius=0;
         if (this.getHeight()>this.getWidth())
         {
@@ -58,6 +61,30 @@ public class SmallCircleView extends View {
         int x = (int) this.getWidth()/2 ;
         int y = (int) this.y;
         canvas.drawCircle(x,y,50,paint);
+        canvas.drawLine(x-10,y,x+10,y,paintText);
+
+        float xdpi = getResources().getDisplayMetrics().xdpi;
+        float ydpi = getResources().getDisplayMetrics().ydpi; //1 inch
+        float yCm = ydpi/2.54f;
+        canvas.drawLine(x, 100,x,yCm*5+100,paintText);
+
+//        canvas.drawLine(x-10,100,x+10,100,paintText);
+//        canvas.drawText("0",x+20,100,paintText);
+//
+//        canvas.drawLine(x-10,100+yCm*1,x+10,100+yCm*1,paintText);
+//        canvas.drawText("1",x+20,100+yCm*1,paintText);
+//
+//        canvas.drawLine(x-10,100+yCm*2,x+10,100+yCm*2,paintText);
+//        canvas.drawText("2",x+20,100+yCm*2,paintText);
+//
+//        canvas.drawLine(x-10,100+yCm*3,x+10,100+yCm*3,paintText);
+//        canvas.drawText("3",x+20,100+yCm*3,paintText);
+//
+//        canvas.drawLine(x-10,100+yCm*4,x+10,100+yCm*4,paintText);
+//        canvas.drawText("4",x+20,100+yCm*4,paintText);
+//
+//        canvas.drawLine(x-10,100+yCm*5,x+10,100+yCm*5,paintText);
+//        canvas.drawText("5",x+20,100+yCm*5,paintText);
     }
 
     void setTheta(float theta)

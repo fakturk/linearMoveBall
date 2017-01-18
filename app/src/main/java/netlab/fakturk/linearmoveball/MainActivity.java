@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         smallCircleView = (SmallCircleView) findViewById(R.id.smallCircleView);
+        float ydpi = getResources().getDisplayMetrics().ydpi; //1 inch
+        final float yCm = ydpi/2.54f;
 
 
         TimerTask myTimerTask = new TimerTask() {
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 // Update logic here
                 currentY=smallCircleView.getY();
-                if (currentY>smallCircleView.getHeight()-100)
+                if (currentY>yCm*5+100)
                 {
                     updateY=-10;
                 }
