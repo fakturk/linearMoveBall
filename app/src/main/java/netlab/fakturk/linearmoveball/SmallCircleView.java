@@ -17,13 +17,46 @@ public class SmallCircleView extends View {
     Paint paint = new Paint();
     Paint paintText = new Paint(Paint.ANTI_ALIAS_FLAG);
 
+    public boolean isVertical() {
+        return isVertical;
+    }
+
+    public void setVertical(boolean vertical) {
+        isVertical = vertical;
+    }
+
+    boolean isVertical = true;
+
 
 
     float theta = 0;
 
 
 
-    float y=100;
+    float y=this.getHeight()/2;
+    float x = this.getWidth()/2;
+
+    @Override
+    public float getX() {
+        return x;
+    }
+
+    @Override
+    public void setX(float x) {
+        this.x = x;
+    }
+
+
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    int length = 5;
 
     public SmallCircleView(Context context) {
         super(context);
@@ -59,8 +92,20 @@ public class SmallCircleView extends View {
         {
             bigCircleRadius = this.getHeight()/2-50;
         }
-        int x = (int) this.getWidth()/2 ;
-        int y = (int) this.getHeight()/2;
+        int x  ;
+        int y ;
+        if (isVertical)
+        {
+            x = this.getWidth()/2;
+            y = (int) this.y;
+
+        }
+        else
+        {
+            x = (int) this.x;
+            y = this.getHeight()/2;
+        }
+
         canvas.drawCircle(x,y,50,paint);
         canvas.drawLine(x-50,y,x+50,y,paint);
         canvas.drawLine(x,y-50,x,y+50,paint);
@@ -68,25 +113,36 @@ public class SmallCircleView extends View {
         float xdpi = getResources().getDisplayMetrics().xdpi;
         float ydpi = getResources().getDisplayMetrics().ydpi; //1 inch
         float yCm = ydpi/2.54f;
-//        canvas.drawLine(x, 100,x,yCm*5+100,paintText);
+        float xCm = xdpi/2.54f;
 
-//        canvas.drawLine(x-10,100,x+10,100,paintText);
-//        canvas.drawText("0",x+20,100,paintText);
-//
-//        canvas.drawLine(x-10,100+yCm*1,x+10,100+yCm*1,paintText);
-//        canvas.drawText("1",x+20,100+yCm*1,paintText);
-//
-//        canvas.drawLine(x-10,100+yCm*2,x+10,100+yCm*2,paintText);
-//        canvas.drawText("2",x+20,100+yCm*2,paintText);
-//
-//        canvas.drawLine(x-10,100+yCm*3,x+10,100+yCm*3,paintText);
-//        canvas.drawText("3",x+20,100+yCm*3,paintText);
-//
-//        canvas.drawLine(x-10,100+yCm*4,x+10,100+yCm*4,paintText);
-//        canvas.drawText("4",x+20,100+yCm*4,paintText);
-//
-//        canvas.drawLine(x-10,100+yCm*5,x+10,100+yCm*5,paintText);
-//        canvas.drawText("5",x+20,100+yCm*5,paintText);
+        if (isVertical)
+        {
+            //for vertical line
+            canvas.drawLine(x, 100,x,yCm*length+100,paintText);
+
+            for (int i = 0; i <= length; i++)
+            {
+                canvas.drawLine(x-10,100+yCm*i,x+10,100+yCm*i,paintText);
+                canvas.drawText(String.valueOf(i),x+20,100+yCm*i,paintText);
+            }
+
+
+        }
+        else
+        {
+            //for horizaontal line
+            canvas.drawLine(100, y,xCm*length+100,y,paintText);
+            for (int i = 0; i <= length; i++)
+            {
+                canvas.drawLine(100+xCm*i,y-10,100+xCm*i,y+10,paintText);
+                canvas.drawText(String.valueOf(i),100+xCm*i-10,y-30,paintText);
+            }
+
+        }
+
+
+
+
     }
 
     void setTheta(float theta)
@@ -108,6 +164,11 @@ public class SmallCircleView extends View {
     void setYMove(float yMove)
     {
         this.y+=yMove;
+        this.invalidate();
+    }
+    void setXMove(float yMove)
+    {
+        this.x+=yMove;
         this.invalidate();
     }
 
