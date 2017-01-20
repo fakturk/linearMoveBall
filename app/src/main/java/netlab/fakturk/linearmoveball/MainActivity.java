@@ -9,9 +9,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class MainActivity extends AppCompatActivity
 {
     SmallCircleView smallCircleView;
@@ -19,6 +16,7 @@ public class MainActivity extends AppCompatActivity
     float[] acc;
     String accMesaage;
     boolean isVertical = false;
+    boolean isMoving = false;
     int length=10;
 
     @Override
@@ -33,6 +31,7 @@ public class MainActivity extends AppCompatActivity
 
         smallCircleView = (SmallCircleView) findViewById(R.id.smallCircleView);
         smallCircleView.setVertical(isVertical);
+        smallCircleView.setMoving(isMoving);
         smallCircleView.setLength(10);
         float ydpi = getResources().getDisplayMetrics().ydpi; //1 inch
         final float yCm = ydpi/2.54f;
@@ -58,60 +57,82 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        TimerTask myTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                // Update logic here
-                if (isVertical)
-                {
-                    currentY=smallCircleView.getY();
-                    if (currentY>yCm*length+100)
-                    {
-                        updateY=-5;
-                    }
-                    if (currentY<100)
-                    {
-                        updateY=5;
-                    }
-                }
-                else
-                {
-                    currentX=smallCircleView.getX();
-                    if (currentX>xCm*length+100)
-                    {
-                        updateX=-5;
-                    }
-                    if (currentX<100)
-                    {
-                        updateX=5;
-                    }
-                }
+//        TimerTask myTimerTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//                // Update logic here
+//                if (isVertical)
+//                {
+//                    currentY=smallCircleView.getY();
+//                    if (currentY>yCm*length+100)
+//                    {
+//                        updateY=-5;
+//                    }
+//                    if (currentY<100)
+//                    {
+//                        updateY=5;
+//                    }
+//                }
+//                else
+//                {
+//                    currentX=smallCircleView.getX();
+//                    if (currentX>xCm*length+100)
+//                    {
+//                        updateX=-5;
+//                    }
+//                    if (currentX<100)
+//                    {
+//                        updateX=5;
+//                    }
+//                }
+//
+//
+//
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        // Drawing logic here
+//                        if (isVertical)
+//                        {
+//                            smallCircleView.setYMove(updateY);
+//                        }
+//                        else
+//                        {
+//                            smallCircleView.setXMove(updateX);
+//                        }
+//
+//
+//
+//                    }
+//                });
+//            }
+//        };
+//        Timer timer = new Timer();
+//        timer.schedule(myTimerTask, 10, 10);
+
+    }
+    @Override
+    protected void onDestroy()
+    {
+
+        super.onDestroy();
+        stopService(new Intent(this,SensorService.class));
+    }
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+        stopService(new Intent(this,SensorService.class));
 
 
+    }
 
+    @Override
+    protected void onResume() {
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Drawing logic here
-                        if (isVertical)
-                        {
-                            smallCircleView.setYMove(updateY);
-                        }
-                        else
-                        {
-                            smallCircleView.setXMove(updateX);
-                        }
-
-
-
-                    }
-                });
-            }
-        };
-        Timer timer = new Timer();
-        timer.schedule(myTimerTask, 10, 10);
-
+        super.onResume();
+        startService(new Intent(this, SensorService.class));
     }
 
 
