@@ -16,6 +16,7 @@ import android.view.View;
 public class SmallCircleView extends View {
     Paint paint = new Paint();
     Paint paintText = new Paint(Paint.ANTI_ALIAS_FLAG);
+    Paint paintGreen = new Paint();
 
     public boolean isVertical() {
         return isVertical;
@@ -74,8 +75,11 @@ public class SmallCircleView extends View {
 
     int length = 5;
 
+
     public SmallCircleView(Context context) {
         super(context);
+         y=this.getHeight()/2;
+         x = this.getWidth()/2;
     }
 
     public SmallCircleView(Context context, AttributeSet attrs) {
@@ -97,6 +101,11 @@ public class SmallCircleView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.RED);
         paint.setStrokeWidth(10);
+
+        paintGreen.setStyle(Paint.Style.STROKE);
+        paintGreen.setColor(Color.GREEN);
+        paintGreen.setStrokeWidth(10);
+
         paintText.setTextSize(40);
 
         int bigCircleRadius=0;
@@ -108,8 +117,7 @@ public class SmallCircleView extends View {
         {
             bigCircleRadius = this.getHeight()/2-50;
         }
-        int x  ;
-        int y ;
+
         if (isVertical)
         {
             x = this.getWidth()/2;
@@ -130,9 +138,19 @@ public class SmallCircleView extends View {
         //I added this code for not moving case, dont forget to remove this part if you want to move the ball again
 
 
+        //red circle
         canvas.drawCircle(x,y,50,paint);
         canvas.drawLine(x-50,y,x+50,y,paint);
         canvas.drawLine(x,y-50,x,y+50,paint);
+
+        int xGreen = this.getWidth()/2;
+        int yGreen = this.getHeight()/2 -200;
+
+        //green circle
+        canvas.drawCircle(xGreen,yGreen,50,paintGreen);
+        canvas.drawLine(xGreen-50,yGreen,xGreen+50,yGreen,paintGreen);
+        canvas.drawLine(xGreen,yGreen-50,xGreen,yGreen+50,paintGreen);
+
 
         float xdpi = getResources().getDisplayMetrics().xdpi;
         float ydpi = getResources().getDisplayMetrics().ydpi; //1 inch
